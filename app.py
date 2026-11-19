@@ -388,21 +388,18 @@ def _horas_restantes_texto(horas: float) -> str:
 ESTILO = """
 <style>
 :root{
-  --paper:#F7F2E8; --surface:#FFFCF6; --surface-2:#F0E8D9;
-  --ink:#1E2433; --muted:#6E6A61; --line:#E2D7C4;
-  --indigo:#2E3A8C; --indigo-2:#4A57B8; --indigo-soft:#E7E8F6;
-  --coral:#BC4A33; --amber:#D79A2B; --sage:#4C7A5C;
-  --shadow:0 1px 2px rgba(30,36,51,.04), 0 18px 40px -32px rgba(30,36,51,.55);
-  --serif:Georgia,'Times New Roman',serif;
+  --paper:#F6F4EF; --surface:#FBFAF7; --surface-2:#EEEBE3;
+  --ink:#2A2D33; --muted:#7C7A73; --line:#E4E0D6;
+  --indigo:#51607F; --indigo-2:#6B7A99; --indigo-soft:#EAEDF2;
+  --coral:#B8705C; --amber:#C4A465; --sage:#6F8D77;
+  --shadow:0 1px 2px rgba(42,45,51,.04);
+  --serif:'Segoe UI',system-ui,-apple-system,sans-serif;
   --sans:'Segoe UI',system-ui,-apple-system,sans-serif;
 }
 
-/* Lienzo: papel cálido con dos halos muy suaves */
+/* Lienzo */
 .stApp{
-  background:
-    radial-gradient(900px 420px at 12% -10%, rgba(46,58,140,.055), transparent 70%),
-    radial-gradient(720px 360px at 100% 0%, rgba(215,154,43,.07), transparent 70%),
-    var(--paper);
+  background:var(--paper);
 }
 .block-container{
   max-width:1160px;
@@ -420,9 +417,10 @@ h1,h2,h3,h4{font-family:var(--serif);color:var(--ink);letter-spacing:-.01em;}
   margin-bottom:1.15rem;}
 .hero .eyebrow{display:inline-block;font:600 .7rem/1 var(--sans);letter-spacing:.17em;
   text-transform:uppercase;color:var(--indigo);margin-bottom:.55rem;}
-.hero h1{font-family:var(--serif);font-size:clamp(2.6rem,5vw,3.35rem);line-height:.95;
-  font-weight:600;margin:0;color:var(--ink);}
-.hero h1 em{font-style:italic;color:var(--indigo);}
+.hero h1{font-size:2rem;line-height:1.1;font-weight:600;margin:0;color:var(--ink);}
+.hero h1 em{font-style:normal;color:inherit;}
+.kpi small,.week-legend,.today-label{display:none !important;}
+.plan-card.primero{box-shadow:var(--shadow);}
 .hero p{max-width:48ch;margin:.6rem 0 0;color:var(--muted);font-size:1rem;line-height:1.55;}
 .today{text-align:right;color:var(--muted);font-size:.82rem;line-height:1.5;
   margin-left:auto;}
@@ -468,7 +466,7 @@ h1,h2,h3,h4{font-family:var(--serif);color:var(--ink);letter-spacing:-.01em;}
   align-items:center;background:var(--surface);border:1px solid var(--line);
   border-radius:16px;padding:1rem 1.15rem;box-shadow:var(--shadow);margin:.65rem 0 0;}
 .plan-card.primero{border-color:#C4C7E9;
-  box-shadow:inset 3px 0 0 var(--indigo),var(--shadow);}
+  box-shadow:var(--shadow);}
 .plan-rank{display:grid;place-items:center;width:2.7rem;height:2.7rem;
   border-radius:50%;background:var(--indigo-soft);color:var(--indigo);
   font:600 1.05rem/1 var(--sans);}
@@ -564,7 +562,6 @@ h1,h2,h3,h4{font-family:var(--serif);color:var(--ink);letter-spacing:-.01em;}
 @media (max-width:760px){
   .block-container{padding-left:1.1rem;padding-right:1.1rem;}
   .hero{grid-template-columns:1fr;gap:1rem;padding-top:.2rem;}
-  .hero h1{font-size:2.6rem;}
   .today{text-align:left;margin-left:0;}
   .plan-card{grid-template-columns:2.2rem minmax(0,1fr);gap:.8rem;}
   .plan-rank{width:2.2rem;height:2.2rem;font-size:.95rem;}
@@ -606,24 +603,17 @@ def _fecha_hero(ahora: datetime) -> str:
 def _hero_html(ahora: datetime) -> str:
     return (
         '<header class="hero">'
-        "<div>"
-        '<span class="eyebrow">Agente de planificación académica</span>'
-        "<h1>Academ<em>IA</em></h1>"
-        "<p>Qué entregar primero y cuánto estudiar cada día. "
-        "Las cuentas están a la vista; la decisión final es tuya.</p>"
-        "</div>"
+        "<div><h1>AcademIA</h1></div>"
         '<div class="today">'
-        '<span class="today-label">Hoy</span>'
         f"<b>{_fecha_hero(ahora)}</b>"
-        f'<span class="hora">{ahora:%H:%M} · hora local</span>'
-        "</div>"
-        "</header>"
+        f'<span class="hora">{ahora:%H:%M}</span>'
+        "</div></header>"
     )
 
 
 def _seccion(titulo: str, bajada: str = "", primera: bool = False) -> None:
     clase = " first" if primera else ""
-    bajada_html = f"<p>{_h(bajada)}</p>" if bajada else ""
+    bajada_html = ""
     _html(
         f'<div class="section-head{clase}"><h2>{_h(titulo)}</h2>{bajada_html}</div>'
     )
@@ -681,7 +671,7 @@ def _plan_html(orden: int, e: dict) -> str:
     else:
         texto_plazo = f"vence en {_horas_restantes_texto(e['horas_restantes'])}"
     pildora = f'<span class="pill {"urgente" if urgente else "normal"}">{texto_plazo}</span>'
-    insignia = '<span class="badge">Empieza aquí</span>' if orden == 1 else ""
+    insignia = ""
     return (
         f'<article class="plan-card{" primero" if orden == 1 else ""}">'
         f'<div class="plan-rank">{orden}</div>'
@@ -860,7 +850,6 @@ def main() -> None:
     # ------------------------- Barra lateral -------------------------
     with st.sidebar:
         st.markdown("#### Configuración")
-        st.caption("Ajusta tu disponibilidad y carga el caso de la Fase 2.")
         horas_dia = st.number_input(
             "Horas libres por día",
             min_value=0.0,
@@ -903,7 +892,6 @@ def main() -> None:
                 "U = max(0, 1 − horas restantes/336) · D = nivel/5 · "
                 "T = min(1, horas estimadas/10)"
             )
-        st.caption("Prototipo académico · Fase 2")
 
     mensaje_flash = st.session_state.pop("flash", None)
 
