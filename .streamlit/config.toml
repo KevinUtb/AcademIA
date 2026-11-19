@@ -1,0 +1,36 @@
+[theme]
+base = "light"
+primaryColor = "#2E3A8C"
+backgroundColor = "#F7F2E8"
+secondaryBackgroundColor = "#F0E8D9"
+textColor = "#1E2433"
+linkColor = "#2E3A8C"
+borderColor = "#E2D7C4"
+font = "Segoe UI, sans-serif"
+headingFont = "Georgia, serif"
+headingFontSizes = ["2.8rem", "2.05rem", "1.45rem"]
+headingFontWeights = [600, 600, 600]
+baseRadius = "0.9rem"
+buttonRadius = "0.7rem"
+showWidgetBorder = true
+paddingTop = "1.5rem"
+paddingBottom = "2.5rem"
+
+redColor = "#BC4A33"
+redBackgroundColor = "#FAE9E4"
+redTextColor = "#8F3524"
+yellowColor = "#B07A16"
+yellowBackgroundColor = "#FBF1D9"
+yellowTextColor = "#6F4E0B"
+greenColor = "#4C7A5C"
+greenBackgroundColor = "#E9F0E9"
+greenTextColor = "#35563F"
+blueColor = "#2E3A8C"
+blueBackgroundColor = "#ECECF8"
+blueTextColor = "#2E3A8C"
+
+[theme.sidebar]
+backgroundColor = "#1E2433"
+secondaryBackgroundColor = "#2B3348"
+textColor = "#F4EFE5"
+primaryColor = "#4655C8"
